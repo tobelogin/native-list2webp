@@ -1,0 +1,12 @@
+--- configure.ac	2026-02-06 10:26:41.366053825 +0800
++++ configure.ac	2026-02-08 10:22:20.976940308 +0800
+@@ -166,8 +166,7 @@
+                              [Disable detection of AVX2 support
+                               @<:@default=auto@:>@]))
+ 
+-AS_IF([test "x$enable_avx2" != "xno" -a "x$enable_sse4_1" != "xno"
+-      -a "x$enable_sse2" != "xno"], [
++AS_IF([test "x$enable_avx2" != "xno" -a "x$enable_sse4_1" != "xno" -a "x$enable_sse2" != "xno"], [
+   AVX2_FLAGS="$INTRINSICS_CFLAGS $AVX2_FLAGS"
+   TEST_AND_ADD_CFLAGS([AVX2_FLAGS], [-mavx2])
+   AS_IF([test -n "$AVX2_FLAGS"], [
