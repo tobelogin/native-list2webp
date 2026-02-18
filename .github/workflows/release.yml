@@ -33,9 +33,8 @@ jobs:
       with:
         name: ${{ github.ref_name }}
         body: |
-          # 更新说明
-
-        draft: true
+          Checkout from ${{ github.sha }}
+        draft: false
         working_directory: build/repos/releases
         files: |
           native-list2webp-${{ github.ref_name }}.zip
