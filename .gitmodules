@@ -1,0 +1,6 @@
+[submodule "src/main/cpp/third_party/libav"]
+	path = src/main/cpp/third_party/libav
+	url = https://github.com/FFmpeg/FFmpeg.git
+[submodule "src/main/cpp/third_party/libwebp"]
+	path = src/main/cpp/third_party/libwebp
+	url = https://github.com/webmproject/libwebp.git
