@@ -24,7 +24,7 @@ jobs:
         ./gradlew --no-daemon publishReleaseToBuildRepo
 
     - name: Create archive
-      working-directory: build/repo/releases
+      working-directory: build/repos/releases
       run: |
         zip -r native-list2webp-${{ github.ref_name }}.zip io
 
@@ -36,6 +36,6 @@ jobs:
           # 更新说明
 
         draft: true
-        working_directory: build/repo/releases
+        working_directory: build/repos/releases
         files: |
           native-list2webp-${{ github.ref_name }}.zip
