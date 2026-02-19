@@ -1,0 +1,44 @@
+name: Android CI
+
+on: workflow_dispatch
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+    - name: set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    - name: Build with Gradle
+      run: |
+        chmod +x gradlew
+        ./gradlew --no-daemon publishReleaseToBuildRepo
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v6.0.0
+      with:
+        name: native-list2webp-${{ github.ref_name }}
+        path: build/repos/releases
+
+    - name: Release artfacts
+      uses: softprops/action-gh-release@v2.5.0
+      if: github.ref_type == 'tag'
+      with:
+        name: ${{ github.ref_name }}
+        tag_name:  ${{ github.ref_name }}
+        body: |
+          Compiled from ${{ github.sha }}
+        draft: false
+        prerelease: true
+        working_directory: build/repos/releases
+        files: |
+          native-list2webp-${{ github.ref_name }}.zip
