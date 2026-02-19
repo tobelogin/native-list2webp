@@ -23,16 +23,11 @@ jobs:
         chmod +x gradlew
         ./gradlew --no-daemon publishReleaseToBuildRepo
 
-    - name: Create archive
-      working-directory: build/repos/releases
-      run: |
-        zip -r native-list2webp-${{ github.ref_name }}.zip io
-
     - name: Upload artifacts
       uses: actions/upload-artifact@v6.0.0
       with:
-        name: native-list2webp-${{ github.ref_name }}.zip
-        path: build/repos/releases/native-list2webp-${{ github.ref_name }}.zip
+        name: native-list2webp-${{ github.ref_name }}
+        path: build/repos/releases
 
     - name: Release artfacts
       uses: softprops/action-gh-release@v2.5.0
