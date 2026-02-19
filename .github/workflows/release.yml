@@ -28,14 +28,16 @@ jobs:
       run: |
         zip -r native-list2webp-${{ github.ref_name }}.zip io
 
-    - name: Release draft
+    - name: Release artfacts
       uses: softprops/action-gh-release@v2.5.0
+      # if: github.ref_type == 'tag'
       with:
         name: ${{ github.ref_name }}
         tag_name:  ${{ github.ref_name }}
         body: |
-          Checkout from ${{ github.sha }}
+          Compiled from ${{ github.sha }}
         draft: false
+        prerelease: true
         working_directory: build/repos/releases
         files: |
           native-list2webp-${{ github.ref_name }}.zip
