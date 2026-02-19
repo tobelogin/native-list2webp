@@ -30,6 +30,7 @@ ExternalProject_Add(
             --disable-png --disable-jpeg --disable-tiff --disable-gif --disable-wic --enable-swap-16bit-csp
             --host=${TOOLCHAIN_TARGET} --with-sysroot=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot
         BUILD_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin make
+        BUILD_ALWAYS TRUE
         INSTALL_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin make install
         COMMAND cd <INSTALL_DIR>/lib && ${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-strip libsharpyuv.so libwebpmux.so libwebp.so
         COMMAND cd <INSTALL_DIR>/lib && cp libsharpyuv.so libwebpmux.so libwebp.so ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
@@ -58,6 +59,7 @@ ExternalProject_Add(
             --disable-aesni --disable-armv5te --disable-armv6 --disable-armv6t2 --disable-vfp --disable-neon --disable-dotprod --disable-i8mm
             --disable-inline-asm --disable-x86asm --disable-mipsdsp --disable-mipsdspr2 --disable-msa --disable-mipsfpu --disable-mmi --disable-lsx --disable-lasx --disable-rvv
         BUILD_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin make
+        BUILD_ALWAYS TRUE
         INSTALL_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin make install
         COMMAND cd <INSTALL_DIR>/lib && cp libavutil.so libavformat.so libavcodec.so libswscale.so ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
         DEPENDS build_libwebp
