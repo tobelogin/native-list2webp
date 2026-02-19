@@ -28,9 +28,15 @@ jobs:
       run: |
         zip -r native-list2webp-${{ github.ref_name }}.zip io
 
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v6.0.0
+      with:
+        name: native-list2webp-${{ github.ref_name }}.zip
+        path: build/repos/releases/native-list2webp-${{ github.ref_name }}.zip
+
     - name: Release artfacts
       uses: softprops/action-gh-release@v2.5.0
-      # if: github.ref_type == 'tag'
+      if: github.ref_type == 'tag'
       with:
         name: ${{ github.ref_name }}
         tag_name:  ${{ github.ref_name }}
