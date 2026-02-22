@@ -26,7 +26,7 @@ ExternalProject_Add(
             STRIP=llvm-strip AR=llvm-ar NM=llvm-nm LINK=llvm-link OBJDUMP=llvm-objdump DLLTOOL=llvm-dlltool RANLIB=llvm-ranlib
             PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
             --enable-shared --disable-static --disable-libwebpdemux
-            --disable-avx2 --disable-sse4.1 --disable-sse2 --disable-neon --disable-neon-rtcd --disable-threading --disable-gl --disable-sdl
+            --disable-avx2 --disable-sse4.1 --disable-sse2 --disable-threading --disable-gl --disable-sdl
             --disable-png --disable-jpeg --disable-tiff --disable-gif --disable-wic --enable-swap-16bit-csp
             --host=${TOOLCHAIN_TARGET} --with-sysroot=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot
         BUILD_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin make
@@ -55,7 +55,7 @@ ExternalProject_Add(
             --disable-libdrm --disable-nvdec --disable-nvenc --disable-v4l2-m2m --disable-vaapi --disable-vdpau --disable-videotoolbox --disable-vulkan
             --disable-asm --disable-altivec --disable-vsx --disable-power8 --disable-amd3dnow --disable-amd3dnowext --disable-mmx --disable-mmxext
             --disable-sse --disable-sse2 --disable-sse3 --disable-ssse3 --disable-sse4 --disable-sse42 --disable-avx --disable-xop --disable-fma3 --disable-fma4 --disable-avx2 --disable-avx512 --disable-avx512icl
-            --disable-aesni --disable-armv5te --disable-armv6 --disable-armv6t2 --disable-vfp --disable-neon --disable-dotprod --disable-i8mm
+            --disable-aesni --disable-armv5te --disable-armv6 --disable-armv6t2 --disable-dotprod --disable-i8mm
             --disable-inline-asm --disable-x86asm --disable-mipsdsp --disable-mipsdspr2 --disable-msa --disable-mipsfpu --disable-mmi --disable-lsx --disable-lasx --disable-rvv
         BUILD_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin make
         INSTALL_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin make install
