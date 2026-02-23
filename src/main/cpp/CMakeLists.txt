@@ -50,8 +50,8 @@ ExternalProject_Add(
 
 add_library(${CMAKE_PROJECT_NAME} SHARED
         # List C/C++ source files with relative paths to this CMakeLists.txt.
+        av-helper/main.c
         av-helper/av-helper.c
-        av-helper/frame_queue.c
 )
 
 add_dependencies(${CMAKE_PROJECT_NAME} externalLibraries)
