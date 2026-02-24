@@ -69,7 +69,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.github.tobelogin"
             artifactId = "native-list2webp"
-            version = "0.1"
+            version = "0.2"
 
             pom {
                 name = "native-list2webp"
