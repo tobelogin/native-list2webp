@@ -234,7 +234,6 @@ int list2webp(const char *list_path, const char *webp_path)
 
         // encode a frame
         out_frame->time_base = in_frame->time_base;
-        // out_frame->duration = av_ctx.in_ctx->streams[0]->duration;
         out_frame->pts = in_frame->pts;
         ret = avcodec_send_frame(av_ctx.enc_ctx, out_frame);
         if (ret < 0)
