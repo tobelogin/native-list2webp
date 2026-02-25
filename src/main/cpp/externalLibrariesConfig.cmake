@@ -44,7 +44,9 @@ ExternalProject_Add(
         build_libav
         PREFIX libav
         SOURCE_DIR ${CMAKE_SOURCE_DIR}/third_party/libav
-        CONFIGURE_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin <SOURCE_DIR>/configure
+        CONFIGURE_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin
+            PKG_CONFIG_PATH=${LIBWEBP_INSTALL_DIR}/lib/pkgconfig
+            <SOURCE_DIR>/configure
             --prefix=<INSTALL_DIR> --enable-cross-compile --target-os=android --arch=${CMAKE_ANDROID_ARCH} --sysroot=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot
             "--cc=clang -target ${TOOLCHAIN_TARGET}" "--extra-cflags=-I${LIBWEBP_INSTALL_DIR}/include"
             "--cxx=clang++ -target ${TOOLCHAIN_TARGET}" "--extra-cxxflags=-I${LIBWEBP_INSTALL_DIR}/include"
