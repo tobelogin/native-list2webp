@@ -26,7 +26,7 @@ ExternalProject_Add(
             STRIP=llvm-strip AR=llvm-ar NM=llvm-nm LINK=llvm-link OBJDUMP=llvm-objdump DLLTOOL=llvm-dlltool RANLIB=llvm-ranlib
             PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
             --enable-shared --disable-static --disable-libwebpdemux
-            --disable-avx2 --disable-sse4.1 --disable-sse2 --disable-threading --disable-gl --disable-sdl
+            --disable-avx2 --disable-sse4.1 --disable-sse2 --disable-gl --disable-sdl
             --disable-png --disable-jpeg --disable-tiff --disable-gif --disable-wic --enable-swap-16bit-csp
             --host=${TOOLCHAIN_TARGET} --with-sysroot=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot
         BUILD_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin make
@@ -52,7 +52,7 @@ ExternalProject_Add(
             "--cxx=clang++ -target ${TOOLCHAIN_TARGET}" "--extra-cxxflags=-I${LIBWEBP_INSTALL_DIR}/include"
             "--ld=clang -target ${TOOLCHAIN_TARGET}" "--extra-ldflags=-L${LIBWEBP_INSTALL_DIR}/lib -Wl,-z,max-page-size=16384"
             --nm=llvm-nm --ar=llvm-ar --pkg-config=pkg-config --strip=llvm-strip
-            --enable-shared --disable-static --enable-small --disable-programs --disable-doc --disable-avdevice --disable-swresample --disable-avfilter --disable-pthreads --disable-network
+            --enable-shared --disable-static --enable-small --disable-programs --disable-doc --disable-avdevice --disable-swresample --disable-avfilter --disable-network
             --disable-everything --enable-encoder=libwebp_anim --enable-decoder=mjpeg --enable-muxer=image2  --enable-demuxer=concat --enable-demuxer=image2 --enable-protocol=file
             --enable-libwebp --disable-amf --disable-audiotoolbox --disable-cuda-llvm --disable-cuvid --disable-d3d11va --disable-d3d12va --disable-dxva2 --disable-ffnvcodec
             --disable-libdrm --disable-nvdec --disable-nvenc --disable-v4l2-m2m --disable-vaapi --disable-vdpau --disable-videotoolbox --disable-vulkan
