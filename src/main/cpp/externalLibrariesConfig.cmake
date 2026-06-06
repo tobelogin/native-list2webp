@@ -23,8 +23,8 @@ ExternalProject_Add(
         build_libwebp
         PREFIX libwebp
         SOURCE_DIR ${CMAKE_SOURCE_DIR}/third_party/libwebp
-        COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin ./autogen.sh
-        CONFIGURE_COMMAND env "CC=clang -target ${TOOLCHAIN_TARGET}" LD=ld "LDFLAGS=-Wl,-z,max-page-size=16384"
+        CONFIGURE_COMMAND cd <SOURCE_DIR> && env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin ./autogen.sh && cd -
+        COMMAND env "CC=clang -target ${TOOLCHAIN_TARGET}" LD=ld "LDFLAGS=-Wl,-z,max-page-size=16384"
             STRIP=llvm-strip AR=llvm-ar NM=llvm-nm LINK=llvm-link OBJDUMP=llvm-objdump DLLTOOL=llvm-dlltool RANLIB=llvm-ranlib
             PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
             --enable-shared --disable-static --disable-libwebpdemux
