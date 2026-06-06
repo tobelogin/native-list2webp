@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Copyright 2026 zjab
+# SPDX-License-Identifier: LGPL-2.1-or-later
+
 --- configure.ac	2026-02-06 10:26:41.366053825 +0800
 +++ configure.ac	2026-02-08 10:22:20.976940308 +0800
 @@ -166,8 +166,7 @@
