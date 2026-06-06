@@ -23,7 +23,6 @@ ExternalProject_Add(
         build_libwebp
         PREFIX libwebp
         SOURCE_DIR ${CMAKE_SOURCE_DIR}/third_party/libwebp
-        PATCH_COMMAND patch --dry-run -f -i ${CMAKE_SOURCE_DIR}/fix_configure_error.patch && patch -f -i ${CMAKE_SOURCE_DIR}/fix_configure_error.patch || true
         COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin ./autogen.sh
         CONFIGURE_COMMAND env "CC=clang -target ${TOOLCHAIN_TARGET}" LD=ld "LDFLAGS=-Wl,-z,max-page-size=16384"
             STRIP=llvm-strip AR=llvm-ar NM=llvm-nm LINK=llvm-link OBJDUMP=llvm-objdump DLLTOOL=llvm-dlltool RANLIB=llvm-ranlib
