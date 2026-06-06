@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: Copyright 2026 zjab
+ * SPDX-License-Identifier: LGPL-2.1-or-later
+ */
+
 package io.github.tobelogin
 
 class FormatConverter {

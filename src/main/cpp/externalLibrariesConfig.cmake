@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: Copyright 2026 zjab
+# SPDX-License-Identifier: LGPL-2.1-or-later
+
 cmake_minimum_required(VERSION 3.22.1)
 
 string(REGEX MATCH "[0-9]*$" MY_ANDROID_VERSION ${ANDROID_PLATFORM})
