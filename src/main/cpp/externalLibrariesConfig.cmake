@@ -17,6 +17,91 @@ else ()
     message(FATAL_ERROR "Unknown Android architecture: ${CMAKE_ANDROID_ARCH}")
 endif ()
 
+# ============================================================
+# enable SIMD instruction set according to cpu architecture
+# ============================================================
+
+# --- libwebp ---
+set(LIBWEBP_DISABLE_FLAGS
+    --disable-gl --disable-sdl
+    --disable-png --disable-jpeg --disable-tiff --disable-gif --disable-wic --enable-swap-16bit-csp
+)
+
+if(${CMAKE_ANDROID_ARCH} STREQUAL "arm64")
+    set(LIBWEBP_SIMD_FLAGS
+        --disable-avx2 --disable-sse4.1 --disable-sse2
+    )
+elseif(${CMAKE_ANDROID_ARCH} STREQUAL "arm")
+    set(LIBWEBP_SIMD_FLAGS
+        --enable-neon --disable-avx2 --disable-sse4.1 --disable-sse2
+    )
+elseif(${CMAKE_ANDROID_ARCH} STREQUAL "x86")
+    set(LIBWEBP_SIMD_FLAGS
+        --enable-sse2 --disable-avx2 --disable-sse4.1
+    )
+elseif(${CMAKE_ANDROID_ARCH} STREQUAL "x86_64")
+    set(LIBWEBP_SIMD_FLAGS
+        --enable-sse4.1 --enable-avx2 --enable-sse2
+    )
+endif()
+
+# --- libav(FFmpeg) ---
+if(${CMAKE_ANDROID_ARCH} STREQUAL "arm64")
+    set(FFMPEG_SIMD_FLAGS
+        --enable-asm
+        --enable-neon
+        --disable-dotprod --disable-i8mm
+        --disable-armv5te --disable-armv6 --disable-armv6t2
+        --disable-inline-asm --disable-x86asm
+        --disable-mipsdsp --disable-mipsdspr2 --disable-msa --disable-mipsfpu
+        --disable-mmi --disable-lsx --disable-lasx --disable-rvv
+        --disable-sse --disable-sse2 --disable-sse3 --disable-ssse3 --disable-sse4 --disable-sse42
+        --disable-avx --disable-xop --disable-fma3 --disable-fma4 --disable-avx2 --disable-avx512 --disable-avx512icl
+        --disable-aesni
+    )
+elseif(${CMAKE_ANDROID_ARCH} STREQUAL "arm")
+    set(FFMPEG_SIMD_FLAGS
+        --enable-asm
+        --enable-neon
+        --enable-armv6 --enable-armv6t2
+        --disable-dotprod --disable-i8mm
+        --disable-armv5te
+        --disable-inline-asm --disable-x86asm
+        --disable-mipsdsp --disable-mipsdspr2 --disable-msa --disable-mipsfpu
+        --disable-mmi --disable-lsx --disable-lasx --disable-rvv
+        --disable-sse --disable-sse2 --disable-sse3 --disable-ssse3 --disable-sse4 --disable-sse42
+        --disable-avx --disable-xop --disable-fma3 --disable-fma4 --disable-avx2 --disable-avx512 --disable-avx512icl
+        --disable-aesni
+    )
+elseif(${CMAKE_ANDROID_ARCH} STREQUAL "x86")
+    set(FFMPEG_SIMD_FLAGS
+        --enable-asm
+        --enable-mmx --enable-mmxext
+        --enable-sse --enable-sse2 --enable-sse3 --enable-ssse3
+        --disable-sse4 --disable-sse42
+        --disable-avx --disable-xop --disable-fma3 --disable-fma4 --disable-avx2 --disable-avx512 --disable-avx512icl
+        --disable-aesni
+        --disable-neon --disable-armv5te --disable-armv6 --disable-armv6t2 --disable-dotprod --disable-i8mm
+        --disable-inline-asm --disable-x86asm
+        --disable-mipsdsp --disable-mipsdspr2 --disable-msa --disable-mipsfpu
+        --disable-mmi --disable-lsx --disable-lasx --disable-rvv
+    )
+elseif(${CMAKE_ANDROID_ARCH} STREQUAL "x86_64")
+    set(FFMPEG_SIMD_FLAGS
+        --enable-asm
+        --enable-mmx --enable-mmxext
+        --enable-sse --enable-sse2 --enable-sse3 --enable-ssse3
+        --enable-sse4 --enable-sse42
+        --enable-avx --enable-xop --enable-fma3 --enable-fma4 --enable-avx2
+        --enable-avx512 --enable-avx512icl
+        --enable-aesni
+        --disable-neon --disable-armv5te --disable-armv6 --disable-armv6t2 --disable-dotprod --disable-i8mm
+        --disable-inline-asm --disable-x86asm
+        --disable-mipsdsp --disable-mipsdspr2 --disable-msa --disable-mipsfpu
+        --disable-mmi --disable-lsx --disable-lasx --disable-rvv
+    )
+endif()
+
 include(ExternalProject)
 
 ExternalProject_Add(
@@ -30,8 +115,7 @@ ExternalProject_Add(
         COMMAND cd src_link && ./autogen.sh && cd ..
         COMMAND src_link/configure --prefix=<INSTALL_DIR>
             --enable-shared --disable-static --disable-libwebpdemux
-            --disable-avx2 --disable-sse4.1 --disable-sse2 --disable-gl --disable-sdl
-            --disable-png --disable-jpeg --disable-tiff --disable-gif --disable-wic --enable-swap-16bit-csp
+            ${LIBWEBP_SIMD_FLAGS} ${LIBWEBP_DISABLE_FLAGS}
             --host=${TOOLCHAIN_TARGET} --with-sysroot=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot
         BUILD_COMMAND export PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin
         COMMAND make
@@ -46,7 +130,7 @@ ExternalProject_Add(
 ExternalProject_Get_Property(build_libwebp INSTALL_DIR)
 set(LIBWEBP_INSTALL_DIR ${INSTALL_DIR})
 
-# ffmpeg 的配置脚本假设链接器是CC
+# the configure script of ffmpeg assumes CC is the linker
 ExternalProject_Add(
         build_libav
         PREFIX libav
@@ -67,14 +151,8 @@ ExternalProject_Add(
             --enable-libwebp --disable-amf --disable-audiotoolbox --disable-cuda-llvm --disable-cuvid
             --disable-d3d11va --disable-d3d12va --disable-dxva2 --disable-ffnvcodec
             --disable-libdrm --disable-nvdec --disable-nvenc --disable-v4l2-m2m --disable-vaapi
-            --disable-vdpau --disable-videotoolbox --disable-vulkan
-            --disable-asm --disable-altivec --disable-vsx --disable-power8
-            --disable-amd3dnow --disable-amd3dnowext --disable-mmx --disable-mmxext
-            --disable-sse --disable-sse2 --disable-sse3 --disable-ssse3 --disable-sse4 --disable-sse42
-            --disable-avx --disable-xop --disable-fma3 --disable-fma4 --disable-avx2 --disable-avx512 --disable-avx512icl
-            --disable-aesni --disable-armv5te --disable-armv6 --disable-armv6t2 --disable-dotprod --disable-i8mm
-            --disable-inline-asm --disable-x86asm --disable-mipsdsp --disable-mipsdspr2
-            --disable-msa --disable-mipsfpu --disable-mmi --disable-lsx --disable-lasx --disable-rvv
+            --disable-vdpau --disable-videotoolbox --enable-vulkan
+            ${FFMPEG_SIMD_FLAGS}
         BUILD_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin make
         BUILD_ALWAYS TRUE
         INSTALL_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin make install
