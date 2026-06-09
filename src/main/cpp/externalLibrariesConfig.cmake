@@ -135,9 +135,9 @@ ExternalProject_Add(
         build_libav
         PREFIX libav
         SOURCE_DIR ${CMAKE_SOURCE_DIR}/third_party/libav
-        CONFIGURE_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin
+        CONFIGURE_COMMAND export PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin
             PKG_CONFIG_PATH=${LIBWEBP_INSTALL_DIR}/lib/pkgconfig
-            <SOURCE_DIR>/configure
+        COMMAND <SOURCE_DIR>/configure
             --prefix=<INSTALL_DIR> --enable-cross-compile --target-os=android --arch=${CMAKE_ANDROID_ARCH} 
             --sysroot=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot
             "--cc=clang -target ${TOOLCHAIN_TARGET}" "--extra-cflags=-I${LIBWEBP_INSTALL_DIR}/include"
@@ -151,7 +151,7 @@ ExternalProject_Add(
             --enable-libwebp --disable-amf --disable-audiotoolbox --disable-cuda-llvm --disable-cuvid
             --disable-d3d11va --disable-d3d12va --disable-dxva2 --disable-ffnvcodec
             --disable-libdrm --disable-nvdec --disable-nvenc --disable-v4l2-m2m --disable-vaapi
-            --disable-vdpau --disable-videotoolbox --enable-vulkan
+            --disable-vdpau --disable-videotoolbox --disable-vulkan
             ${FFMPEG_SIMD_FLAGS}
         BUILD_COMMAND env PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:/usr/bin:/bin make
         BUILD_ALWAYS TRUE
